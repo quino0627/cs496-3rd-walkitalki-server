@@ -22,13 +22,12 @@ const port = process.env.port || 80;
 
 // DEFINE MODEL
 
-const User = require("./models/User");
 const MapChat = require("./models/mapChat");
 
 // CONFIGURE ROUTER
 
 //  USERROUTER: manage users such as register
-const userRouter = require("./routes/userRouter")(app, User);
+
 const mapChatRouter = require("./routes/mapChatRouter")(app, MapChat);
 //SOCKET
 //IMPLEMENT
@@ -89,21 +88,22 @@ io.on("connection", socket => {
   //     console.log(`socket : message : ${data}`);
   //   });
 
-  socket.on("test new message", ()=> {
+  socket.on("test new message", () => {
+    console.log("qwerty");
     const current = moment().format("YYMMDDHHmmss");
-    var mapchat = new mapChat();
+    var mapchat = new MapChat();
     mapchat.username = "test";
     mapchat.userID = "123456";
-    mapchat.content = "This is a test message"
-    mapchat.latitude = 127.5234534
-    mapchat.longitude = 36.32567234
-    mapchat.chat_id = matchat.username + current;
+    mapchat.content = "This is a test message";
+    mapchat.latitude = 127.5234534;
+    mapchat.longitude = 36.32567234;
+    mapchat.chat_id = mapchat.username + current;
 
-    mapchat.save( err=> {
+    mapchat.save(err => {
       if (err) {
         console.error(err);
       }
       console.log("yes!");
     });
-  })
+  });
 });
