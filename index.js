@@ -66,37 +66,31 @@ io.on("connection", socket => {
     });
   });
 
-  socket.on("map detection", (name, content, latitude, longitude) => {
+  socket.on("map detection", (name, userid, content, latitude, longitude) => {
     console.log(
       `new message content : ${name}, ${content} ,${longitude}, ${latitude}`
     );
     socket.emit("map new message", {
       username: name,
+      userID: userid,
       message: content,
       longitude: longitude,
       latitude: latitude
     });
     socket.broadcast.emit("map new message", {
       username: name,
+      userID: userid,
       message: content,
       longitude: longitude,
       latitude: latitude
     });
-  });
-
-  //   socket.on("message", data => {
-  //     console.log(`socket : message : ${data}`);
-  //   });
-
-  socket.on("test new message", () => {
-    console.log("qwerty");
     const current = moment().format("YYMMDDHHmmss");
     var mapchat = new MapChat();
-    mapchat.username = "test";
-    mapchat.userID = "123456";
-    mapchat.content = "This is a test message";
-    mapchat.latitude = 127.5234534;
-    mapchat.longitude = 36.32567234;
+    mapchat.username = name;
+    mapchat.userID = userid;
+    mapchat.content = content;
+    mapchat.latitude = latitude;
+    mapchat.longitude = longitude;
     mapchat.chat_id = mapchat.username + current;
 
     mapchat.save(err => {
@@ -106,4 +100,9 @@ io.on("connection", socket => {
       console.log("yes!");
     });
   });
+
+  //   socket.on("message", data => {
+  //     console.log(`socket : message : ${data}`);
+  //   });
+
 });
