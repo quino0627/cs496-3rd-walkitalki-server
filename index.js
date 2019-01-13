@@ -9,6 +9,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 // CONFIGURE APP TO USE BODYPARSER
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,14 +21,13 @@ app.use("/storage", express.static("storage/"));
 const port = process.env.port || 80;
 
 // DEFINE MODEL
-const Post = require("./models/Post");
-const User = require("./models/User");
-const Chat = require("./models/Chat");
+const User = require("./models/user");
+const MapChat = require("./models/mapChat");
 
 // CONFIGURE ROUTER
 
 //  USERROUTER: manage users such as register
-const userRouter = require("./routes/userRouter")(app, User);
+// const userRouter = require("./routes/userRouter")(app, User);
 
 //SOCKET
 //IMPLEMENT
@@ -50,7 +50,7 @@ mongoose.connect(
 );
 
 const io = require("socket.io").listen(server).sockets;
-let numUsers = 0;
+// let numUsers = 0;
 io.on("connection", socket => {
   console.log("connection client");
 
@@ -87,4 +87,22 @@ io.on("connection", socket => {
   //   socket.on("message", data => {
   //     console.log(`socket : message : ${data}`);
   //   });
+
+  socket.on("test new message", ()=> {
+    const current = moment().format("YYMMDDHHmmss");
+    var mapchat = new mapChat();
+    mapchat.username = "test";
+    mapchat.userID = "123456";
+    mapchat.content = "This is a test message"
+    mapchat.latitude = 127.5234534
+    mapchat.longitude = 36.32567234
+    mapchat.chat_id = matchat.username + current;
+
+    mapchat.save( err=> {
+      if (err) {
+        console.error(err);
+      }
+      console.log("yes!");
+    });
+  })
 });
