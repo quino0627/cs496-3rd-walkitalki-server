@@ -1,0 +1,26 @@
+{
+  "name": "cs496-3rd-walkitalki-server",
+  "version": "1.0.0",
+  "description": "cs496-3rd-walkitalki-server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quino0627/cs496-3rd-walkitalki-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/quino0627/cs496-3rd-walkitalki-server/issues"
+  },
+  "homepage": "https://github.com/quino0627/cs496-3rd-walkitalki-server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.3",
+    "socket.io": "^2.2.0",
+    "moment": "2.23.0"
+  }
+}
