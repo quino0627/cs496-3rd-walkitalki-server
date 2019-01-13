@@ -20,15 +20,15 @@ app.use("/storage", express.static("storage/"));
 const port = process.env.port || 80;
 
 // DEFINE MODEL
-const Post = require("./models/Post");
+
 const User = require("./models/User");
-const Chat = require("./models/Chat");
+const MapChat = require("./models/mapChat");
 
 // CONFIGURE ROUTER
 
 //  USERROUTER: manage users such as register
 const userRouter = require("./routes/userRouter")(app, User);
-
+const mapChatRouter = require("./routes/mapChatRouter")(app, MapChat);
 //SOCKET
 //IMPLEMENT
 
