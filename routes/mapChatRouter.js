@@ -2,9 +2,9 @@ const moment = require("moment");
 module.exports = (app, mapChat) => {
   //CREATE NEW CHAT
   app.post("/api/mapchat/create", (req, res) => {
-    console.log(moment.calendarFormat + "api - request new chat");
-    let mapChat = new mapChat();
     const current = moment().format("YYMMDDHHmmss");
+    console.log(current + "api - request new chat");
+    let mapChat = new mapChat();
     mapChat.username = req.body.username;
     mapChat.userID = req.body.userID;
     mapChat.content = req.body.content;
@@ -25,19 +25,21 @@ module.exports = (app, mapChat) => {
 
   //GET ALL CHATS
   app.get("/api/mapchat/all", (req, res) => {
-    console.log(moment.calendarFormat + "api - request new chat");
+    const current = moment().format("YYMMDDHHmmss");
+    console.log(current.toString + "api - request all chat");
     mapChat.find(
-      {
-        username: 1,
-        userID: 1,
-        content: 1,
-        timestamp: 1,
-        latitude: 1,
-        longitude: 1
-      },
+      //   {
+      //     username: 1,
+      //     userID: 1,
+      //     content: 1,
+      //     timestamp: 1,
+      //     latitude: 1,
+      //     longitude: 1
+      //   },
       (err, mapChats) => {
         if (err) return res.status(500).send({ error: "database failure" });
         res.json(mapChats);
+        //console.log(mapChats);
         console.log(moment().format("YYMMDDHHmmss") + "    OK");
       }
     );
