@@ -97,8 +97,7 @@ io.on("connection", socket => {
       if (err) {
         console.error(err);
       }
-      console.log(userid);
-      console.log(mapchat.userID);
+      console.log("yes!");
     });
   });
 
