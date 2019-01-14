@@ -66,7 +66,7 @@ io.on("connection", socket => {
     });
   });
 
-  socket.on("map detection", (name, userid, content, latitude, longitude) => {
+  socket.on("map detection", (name, userid, content, latitude, longitude, chat_id) => {
     console.log(
       `new message content : ${name}, ${content} ,${longitude}, ${latitude}`
     );
@@ -91,7 +91,7 @@ io.on("connection", socket => {
     mapchat.content = content;
     mapchat.latitude = latitude;
     mapchat.longitude = longitude;
-    mapchat.chat_id = "testing";
+    mapchat.chat_id = chat_id + current;
 
     mapchat.save(err => {
       if (err) {
