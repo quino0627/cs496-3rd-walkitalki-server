@@ -91,7 +91,7 @@ io.on("connection", socket => {
     mapchat.content = content;
     mapchat.latitude = latitude;
     mapchat.longitude = longitude;
-    mapchat.chat_id = name + current;
+    mapchat.chat_id = "testing";
 
     mapchat.save(err => {
       if (err) {
