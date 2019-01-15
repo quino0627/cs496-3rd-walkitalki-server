@@ -6,10 +6,11 @@ var mapPostSchema = new Schema({
   username: String,
   userID: Number,
   content: String,
-  timestamp: { type: Date, default: Date.now, expires: 300 },
+  timestamp: { type: Date, default: Date.now, expires: 86400 },
   latitude: Number,
   longitude: Number,
-  post_id: String
+  post_id: String,
+  pictureUrl: String
 });
 
 module.exports = mongoose.model("mappost", mapPostSchema);

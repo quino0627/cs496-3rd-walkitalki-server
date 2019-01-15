@@ -5,6 +5,8 @@ module.exports = (app, mapPost) => {
     const current = moment().format("YYMMDDHHmmss");
     console.log(current + "api - request new Post");
     let mapPost = new mapPost();
+    const fs = require("fs");
+    let buff = new Buffer(req.body.pictureUrl, "base64");
     mapPost.title = req.body.title;
     mapPost.username = req.body.username;
     mapPost.userID = req.body.userID;
@@ -13,6 +15,10 @@ module.exports = (app, mapPost) => {
     mapPost.latitude = req.body.latitude;
     mapPost.longitude = req.body.longitude;
     mapPost.post_id = req.body.userID + current;
+    fs.writeFileSync("./storage/" + mapPost.post_id, buff);
+    mapPost.pictureUrl = "./storage/" + mapPost.post_id;
+    console.log("hjhjhjhj");
+
     mapPost.save(err => {
       if (err) {
         console.log("Post SAVING ERROR : ", err);

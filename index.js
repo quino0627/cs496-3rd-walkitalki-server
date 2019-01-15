@@ -105,11 +105,13 @@ io.on("connection", socket => {
 
   socket.on(
     "post detection",
-    (name, userid, title, content, latitude, longitude) => {
+    (name, userid, title, imageString, content, latitude, longitude) => {
       console.log(
         `new post content :${title} ${name}, ${content} ,${longitude}, ${latitude}`
       );
-      socket.emit("map new message", {
+      // console.log(imageString);
+
+      socket.emit("map new post", {
         title: title,
         username: name,
         userID: userid,
@@ -117,7 +119,7 @@ io.on("connection", socket => {
         longitude: longitude,
         latitude: latitude
       });
-      socket.broadcast.emit("map new message", {
+      socket.broadcast.emit("map new post", {
         title: title,
         username: name,
         userID: userid,
@@ -126,6 +128,9 @@ io.on("connection", socket => {
         latitude: latitude
       });
       const current = moment().format("YYMMDDHHmmss");
+      const fs = require("fs");
+      let buff = new Buffer(imageString, "base64");
+
       var mappost = new MapPost();
       mappost.title = title;
       mappost.username = name;
@@ -133,7 +138,10 @@ io.on("connection", socket => {
       mappost.content = content;
       mappost.latitude = latitude;
       mappost.longitude = longitude;
-      mappost.chat_id = userid + current;
+      mappost.post_id = userid + current;
+      mappost.pictureUrl = "./storage/" + mappost.post_id + ".png";
+      fs.writeFileSync("./storage/" + mappost.post_id + ".png", buff);
+      console.log("AFTER THE WF");
 
       mappost.save(err => {
         if (err) {
@@ -142,7 +150,7 @@ io.on("connection", socket => {
         console.log(
           `${mappost.title}, ${mappost.username}, ${mappost.userID}, ${
             mappost.content
-          }, ${mappost.chat_id}`
+          }, ${mappost.post_id}`
         );
       });
     }
