@@ -23,12 +23,14 @@ const port = process.env.port || 80;
 // DEFINE MODEL
 
 const MapChat = require("./models/mapChat");
+const MapPost = require("./models/mapPost");
 
 // CONFIGURE ROUTER
 
 //  USERROUTER: manage users such as register
 
 const mapChatRouter = require("./routes/mapChatRouter")(app, MapChat);
+const mapPostRouter = require("./routes/mapPostRouter")(app, MapPost);
 //SOCKET
 //IMPLEMENT
 
@@ -101,8 +103,52 @@ io.on("connection", socket => {
     });
   });
 
+  socket.on(
+    "post detection",
+    (name, userid, title, content, latitude, longitude) => {
+      console.log(
+        `new post content :${title} ${name}, ${content} ,${longitude}, ${latitude}`
+      );
+      socket.emit("map new message", {
+        title: title,
+        username: name,
+        userID: userid,
+        message: content,
+        longitude: longitude,
+        latitude: latitude
+      });
+      socket.broadcast.emit("map new message", {
+        title: title,
+        username: name,
+        userID: userid,
+        message: content,
+        longitude: longitude,
+        latitude: latitude
+      });
+      const current = moment().format("YYMMDDHHmmss");
+      var mappost = new MapPost();
+      mappost.title = title;
+      mappost.username = name;
+      mappost.userID = userid;
+      mappost.content = content;
+      mappost.latitude = latitude;
+      mappost.longitude = longitude;
+      mappost.chat_id = userid + current;
+
+      mappost.save(err => {
+        if (err) {
+          console.error(err);
+        }
+        console.log(
+          `${mappost.title}, ${mappost.username}, ${mappost.userID}, ${
+            mappost.content
+          }, ${mappost.chat_id}`
+        );
+      });
+    }
+  );
+
   //   socket.on("message", data => {
   //     console.log(`socket : message : ${data}`);
   //   });
-
 });
